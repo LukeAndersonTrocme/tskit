@@ -151,8 +151,12 @@ jobs:
           # pytest -xv -n2
           python -m pytest -x --cov=tskit --cov-report=xml --cov-branch -n2 tests
 
+      - name: Remove py311 incompatible tests
+        if: matrix.python == '3.11'
+        run: |
+          rm python/tests/test_genotype_matching_*
+
       - name: Upload coverage to Codecov
-        if: matrix.os == 'ubuntu-latest'
         uses: codecov/codecov-action@v2
         with:
           working-directory: python
